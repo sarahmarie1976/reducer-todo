@@ -1,51 +1,34 @@
-export const initialState = {
-    todos: [
-      {
-        title: "Teste",
-        isDone: false
-      }
-    ],
-    currentView: "all"
-  };
-  
-  export default function reducer(state, action) {
-    switch (action.type) {
-      case "ADD":
-        return {
-          ...state,
-          todos: [
-            {
-              title: action.payload,
-              isDone: false
-            },
-            ...state.todos
-          ]
-        };
-      case "REMOVE":
-        return {
-          ...state,
-          todos: state.todos.filter((item, index) => index !== action.payload)
-        };
-      case "TOGGLE_TODO":
-        return {
-          ...state,
-          todos: state.todos.map((todo, index) => {
-            if (index === action.payload) {
-              return {
-                title: state.todos[action.payload].title,
-                isDone: !state.todos[action.payload].isDone
-              };
-            }
-            return todo;
-          })
-        };
-      case "CHANGE_VIEW":
-        return {
-          ...state,
-          currentView: action.payload
-        };
-      default:
-        return state;
-    }
-  }
+
+
+
+
+export const reducer = (state, action) => {
+	switch (action.type) {
+		// do something with the action
+		case 'ADD':
+			return [
+				...state,
+				{
+					id: Date.now(),
+          name: action.name,
+				},
+      ];
+      
+    case 'TOGGLE_COMPLETED':
+      return state.map((todo, index) =>
+        (index === action.index)
+          ? { ...todo, completed: !todo.completed } 
+          : todo
+      )
+
+    case 'SET_VISIBILITY_FILTER':
+      return state.filter(todo => !todo.completed);
+        
+
+		case 'REMOVE':
+			return state.filter((_, index) => index !== action.index);
+		default:
+			return state;
+	}
+};
   
